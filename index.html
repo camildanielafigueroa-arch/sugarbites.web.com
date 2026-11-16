@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SugarBites - Personalizados</title>
+    <style>
+        :root {
+            --primary: #ff6b8b;
+            --secondary: #ff8e53;
+            --bg-color: #fff0f3;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --accent: #ffb6c1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding-bottom: 90px; /* Espacio para la barra flotante */
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+
+        /* Secciones */
+        .section {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin: 15px 0 10px 0;
+        }
+
+        /* Tarjetas de productos */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .card.selected {
+            border-color: var(--primary);
+            background-color: #fff8fa;
+        }
+
+        .card-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .card-info .price {
+            font-weight: bold;
+            color: #e63946;
+            font-size: 1rem;
+        }
+
+        /* Controles de cantidad / selección */
+        button, .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        button:active {
+            transform: scale(0.96);
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+
+        /* Barra flotante de precios en vivo */
+        .floating-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            padding: 12px 20px;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .floating-bar .total-text {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .floating-bar .total-price {
+            color: #e63946;
+            font-size: 1.3rem;
+        }
+
+        /* Navegación inferior / Botones de menú principal */
+        .main-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .menu-btn {
+            background: white;
+            color: var(--text-color);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+            border: 2px solid var(--accent);
+            cursor: pointer;
+        }
+
+        .menu-btn:hover {
+            background-color: var(--bg-color);
+        }
+
+        /* Resumen de pedido final */
+        .checkout-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-top: 10px;
+        }
+
+        .checkout-list {
+            list-style: none;
+            margin: 15px 0;
+            max-height: 200px;
+            overflow-y: auto;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+        }
+
+        .checkout-list li {
+            padding: 6px 0;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.95rem;
+        }
+
+        .back-btn {
+            background-color: #6c757d;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>SugarBites</h1>
+        <p>Bandejas y Vasos Personalizados</p>
+    </header>
+
+    <div class="container">
+
+        <!-- 1. PANTALLA DE INICIO (Sin resumen de pedido) -->
+        <div id="section-home" class="section active">
+            <h2 style="text-align: center; margin: 20px 0;">¿Qué querés armar hoy?</h2>
+            <div class="main-menu">
+                <div class="menu-btn" onclick="cambiarSeccion('bandejas')">🎁 Armar Bandeja Personalizada</div>
+                <div class="menu-btn" onclick="cambiarSeccion('vasos')">🥤 Armar Vaso Personalizado</div>
+            </div>
+        </div>
+
+        <!-- 2. SECCIÓN BANDEJAS (Sin aclaraciones) -->
+        <div id="section-bandejas" class="section">
+            <button class="btn back-btn" onclick="cambiarSeccion('home')">⬅ Volver al inicio</button>
+            <h2>Elige tu Bandeja</h2>
+            <div class="grid">
+                <div class="card" onclick="agregarItem('Bandeja Clásica', 5000, this)">
+                    <div class="card-info">
+                        <h3>Bandeja Clásica</h3>
+                        <div class="price">$5.000</div>
+                    </div>
+                    <button type="button">Agregar</button>
+                </div>
+                <div class="card" onclick="agregarItem('Bandeja Premium', 8500, this)">
+                    <div class="card-info">
+                        <h3>Bandeja Premium</h3>
+                        <div class="price">$8.500</div>
+                    </div>
+                    <button type="button">Agregar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. SECCIÓN VASOS (Sin aclaraciones) -->
+        <div id="section-vasos" class="section">
+            <button class="btn back-btn" onclick="cambiarSeccion('home')">⬅ Volver al inicio</button>
+            <h2>Elige tu Vaso</h2>
+            <div class="grid">
+                <div class="card" onclick="agregarItem('Vaso Térmico Simple', 2500, this)">
+                    <div class="card-info">
+                        <h3>Vaso Térmico Simple</h3>
+                        <div class="price">$2.500</div>
+                    </div>
+                    <button type="button">Agregar</button>
+                </div>
+                <div class="card" onclick="agregarItem('Vaso con Tapa y Sorbete', 3800, this)">
+                    <div class="card-info">
+                        <h3>Vaso con Tapa y Sorbete</h3>
+                        <div class="price">$3.800</div>
+                    </div>
+                    <button type="button">Agregar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. SECCIÓN FINALIZAR PEDIDO (El resumen detallado aparece acá) -->
+        <div id="section-checkout" class="section">
+            <button class="btn back-btn" onclick="cambiarSeccion('home')">⬅ Seguir comprando</button>
+            <h2>Resumen de tu Pedido</h2>
+            <div class="checkout-box">
+                <p>Acá tenés el detalle completo de lo que elegiste:</p>
+                <ul id="lista-carrito" class="checkout-list">
+                    <!-- Se llena automáticamente -->
+                </ul>
+                <div style="font-size: 1.2rem; font-weight: bold; text-align: right; margin-bottom: 15px;">
+                    Total a pagar: <span id="total-final" style="color: #e63946;">$0</span>
+                </div>
+                <button class="btn" style="width: 100%; background-color: #25d366; font-size: 1.1rem; padding: 12px;" onclick="enviarWhatsApp()">
+                    💬 Enviar Pedido por WhatsApp
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- BARRA FLOTANTE (Muestra cuánta plata van sumando en vivo y el botón para ir a finalizar) -->
+    <div class="floating-bar" id="barra-flotante">
+        <div>
+            <span class="total-text">Total: </span>
+            <span class="total-price" id="contador-plata">$0</span>
+        </div>
+        <button class="btn" onclick="cambiarSeccion('checkout')">Finalizar pedido 🛒</button>
+    </div>
+
+    <script>
+        let carrito = [];
+
+        function cambiarSeccion(seccionId) {
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById('section-' + seccionId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function agregarItem(nombre, precio, elementoCard) {
+            carrito.push({ nombre, precio });
+            actualizarTotales();
+            
+            // Animación visual de selección
+            elementoCard.classList.add('selected');
+            setTimeout(() => elementoCard.classList.remove('selected'), 300);
+        }
+
+        function actualizarTotales() {
+            let total = carrito.reduce((acc, item) => acc + item.price, 0);
+            
+            // Actualiza la barra flotante inferior
+            document.getElementById('contador-plata').innerText = '$' + total.toLocaleString('es-AR');
+            document.getElementById('total-final').innerText = '$' + total.toLocaleString('es-AR');
+
+            // Actualiza la lista dentro del resumen de finalizar
+            let listaHTML = '';
+            if (carrito.length === 0) {
+                listaHTML = '<li>No hay productos seleccionados todavía.</li>';
+            } else {
+                carrito.forEach((item, index) => {
+                    listaHTML += `<li><span>${item.nombre}</span> <span>$${item.price.toLocaleString('es-AR')}</span></li>`;
+                });
+            }
+            document.getElementById('lista-carrito').innerHTML = listaHTML;
+        }
+
+        function enviarWhatsApp() {
+            if (carrito.length === 0) {
+                alert('Tu carrito está vacío.');
+                return;
+            }
+            let total = carrito.reduce((acc, item) => acc + item.price, 0);
+            let mensaje = "¡Hola SugarBites! Quiero hacer el siguiente pedido:%0A";
+            carrito.forEach(item => {
+                mensaje += `- ${item.nombre} ($${item.price})%0A`;
+            });
+            mensaje += `%0A*Total: $${total}*`;
+            
+            window.open(`https://wa.me/54911TU_NUMERO_AQUI?text=${mensaje}`, '_blank');
+        }
+    </script>
+</body>
+</html>
