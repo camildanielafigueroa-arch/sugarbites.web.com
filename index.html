@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SugarBites | Un antojo, mil combinaciones</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap');
+:root{
+  --wine:#781b22;
+  --wine2:#9a3038;
+  --ink:#30221b;
+  --cream:#fbf7ed;
+  --paper:#fffdf8;
+  --sand:#e9dfcf;
+  --muted:#827366;
+  --blush:#f2e1dc;
+  --green:#53664a;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif}
+.top{background:var(--wine);color:#fff;text-align:center;padding:10px;font-size:10px;letter-spacing:2px;font-weight:700}
+header{max-width:1180px;margin:auto;padding:20px 26px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--wine);text-decoration:none}
+.monogram{width:43px;height:43px;border:1px solid var(--wine);border-radius:50%;display:grid;place-items:center;font:26px Georgia}
+.brand b{font:700 25px 'Playfair Display';display:block}
+.brand small{display:block;text-align:center;font-size:9px;letter-spacing:4px;font-weight:800}
+nav{display:flex;gap:25px;align-items:center}
+nav button{background:none;border:0;color:var(--ink);font:700 13px 'DM Sans';cursor:pointer;padding:8px 0}
+nav button:hover,nav button.active{color:var(--wine);border-bottom:2px solid var(--wine)}
+.btn{background:var(--wine);color:#fff;border:0;border-radius:999px;padding:13px 20px;font:700 13px 'DM Sans';cursor:pointer}
+.btn:hover{background:var(--wine2)}
+.btn.outline{background:transparent;border:1px solid #cbb8a7;color:var(--wine)}
+main{max-width:1180px;margin:auto;padding:0 26px 70px}
+.view{display:none}
+.view.active{display:block}
+.hero{margin:15px 0 35px;background:linear-gradient(115deg,#f3e3dc,#f8f0e5 58%,#e8c9bf);border-radius:28px;min-height:420px;display:grid;grid-template-columns:1.08fr .92fr;overflow:hidden}
+.hero-copy{padding:62px 20px 55px 62px;align-self:center}
+.eyebrow{font-size:10px;letter-spacing:2.5px;color:var(--wine);font-weight:800;text-transform:uppercase}
+h1{font:600 clamp(43px,5vw,68px)/1.04 'Playfair Display';color:var(--wine);margin:17px 0}
+.hero-copy p{max-width:450px;line-height:1.8;color:#6c594c;font-size:14px}
+.actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:25px}
+.hero-visual{display:grid;place-items:center;position:relative;min-height:340px}
+.circle{position:absolute;width:300px;height:300px;border-radius:50%;background:#e6bdb2}
+.cup{position:relative;width:190px;height:245px;border:7px solid #fff9;border-top-width:5px;border-radius:20px 20px 48px 48px;background:linear-gradient(180deg,#fff0df 0 17%,#d7434a 17% 45%,#fff1df 45% 65%,#c3313e 65%);box-shadow:0 25px 45px #70252a30;transform:rotate(5deg)}
+.cup:before{content:'✿  ✿  ✿';position:absolute;top:7px;left:14px;color:#b82f3a;font-size:25px;letter-spacing:5px}
+.cup:after{content:'SUGAR BITES';position:absolute;bottom:25px;left:0;right:0;text-align:center;color:#fff;font-size:10px;font-weight:800;letter-spacing:2px}
+.float{position:absolute;background:#fffdf8;padding:12px 15px;border-radius:13px;box-shadow:0 10px 25px #4a24151a;font-size:11px;font-weight:800}
+.float.one{top:20%;left:5%}
+.float.two{right:5%;bottom:18%}
+.intro-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0 45px}
+.intro-card{background:var(--paper);border:1px solid var(--sand);border-radius:17px;padding:20px}
+.intro-card strong{display:block;color:var(--wine);font:600 20px 'Playfair Display';margin-bottom:7px}
+.intro-card p{font-size:12px;line-height:1.7;color:var(--muted);margin:0}
+.section-head{margin:30px 0 20px}
+.section-head h2{font:600 36px 'Playfair Display';color:var(--wine);margin:8px 0}
+.section-head p{color:var(--muted);font-size:13px;margin:0}
+.category-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.category{border:1px solid var(--sand);background:var(--paper);border-radius:20px;overflow:hidden;cursor:pointer;transition:.2s}
+.category:hover{transform:translateY(-4px);box-shadow:0 15px 30px #43271912}
+.category-art{height:220px;display:grid;place-items:center;font-size:90px;background:linear-gradient(135deg,#f5e4db,#ead0c8)}
+.category:nth-child(2) .category-art{background:linear-gradient(135deg,#f5eadd,#e6c8ad)}
+.category-info{padding:19px 21px;display:flex;justify-content:space-between;align-items:center}
+.category-info h3{font:600 25px 'Playfair Display';color:var(--wine);margin:0 0 5px}
+.category-info p{margin:0;color:var(--muted);font-size:12px}
+.arrow{width:38px;height:38px;border-radius:50%;background:var(--wine);color:white;display:grid;place-items:center;font-size:19px}
+.product-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
+.product{background:var(--paper);border:1px solid var(--sand);border-radius:18px;padding:18px;display:grid;grid-template-columns:110px 1fr;gap:16px;align-items:center}
+.product-art{height:112px;border-radius:13px;background:var(--blush);display:grid;place-items:center;font-size:52px}
+.product h3{margin:0 0 5px;color:var(--wine);font:600 20px 'Playfair Display'}
+.product p{margin:0;color:var(--muted);font-size:12px;line-height:1.55}
+.product-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:11px}
+.price{font-weight:800;color:var(--wine);font-size:18px}
+.plus{border:0;background:var(--wine);color:#fff;border-radius:50%;width:34px;height:34px;font-size:20px;cursor:pointer}
+.custom-banner{margin:35px 0 18px;padding:24px;border-radius:18px;background:#f1e5d8;display:flex;justify-content:space-between;align-items:center;gap:15px}
+.custom-banner h3{font:600 25px 'Playfair Display';color:var(--wine);margin:0 0 5px}
+.custom-banner p{font-size:12px;color:var(--muted);margin:0}
+.builder{display:grid;grid-template-columns:1.25fr .75fr;gap:17px;align-items:start}
+.panel{background:var(--paper);border:1px solid var(--sand);border-radius:19px;padding:22px}
+.panel h3{font:600 22px 'Playfair Display';color:var(--wine);margin:0 0 15px}
+.field{display:block;font-size:12px;font-weight:800;margin:18px 0 8px}
+.select,input,textarea{width:100%;padding:12px;border:1px solid var(--sand);border-radius:10px;background:#fffefa;font:13px 'DM Sans';color:var(--ink)}
+.opts{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.opt{display:flex;align-items:center;gap:7px;border:1px solid var(--sand);border-radius:10px;padding:9px;font-size:11px;background:#fffefa}
+.opt input{width:15px;accent-color:var(--wine)}
+.opt em{font-style:normal;margin-left:auto;color:var(--muted);white-space:nowrap;font-size:10px}
+.summary{position:sticky;top:15px}
+.sumrow{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--sand);font-size:12px;color:var(--muted)}
+.total{display:flex;justify-content:space-between;align-items:center;margin:18px 0}
+.total strong{font-size:26px;color:var(--wine)}
+.hint{font-size:11px;line-height:1.6;color:var(--muted)}
+.wide{width:100%}
+.cart-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cartline{padding:12px 0;border-bottom:1px solid var(--sand);font-size:13px}
+.cartline small{display:block;color:var(--muted);margin-top:5px}
+.remove{border:0;background:none;color:var(--wine);font-size:11px;font-weight:800;cursor:pointer;padding:5px 0}
+.payhint{background:#f4eae0;padding:12px;border-radius:10px;font-size:11px;color:#71594b;line-height:1.5;margin:12px 0}
+.done-panel{text-align:center;max-width:650px;margin:50px auto;padding:42px 28px}
+.done-panel h2{font:600 36px 'Playfair Display';color:var(--wine);margin:12px 0}
+.done-panel p{line-height:1.8;color:var(--muted);font-size:13px}
+.done-icon{font-size:52px;color:var(--wine);margin-bottom:12px}
+.cart-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.qty-control{display:inline-flex;align-items:center;gap:9px;margin:7px 12px 0 0}
+.qty-control button{border:1px solid var(--sand);background:#fffaf4;color:var(--wine);border-radius:50%;width:27px;height:27px;font-weight:800;cursor:pointer}
+.cartline{display:block}
+.cartline-top{display:flex;justify-content:space-between;gap:10px;align-items:start}
+.cartline small{line-height:1.6}
+.cart-toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--wine);color:#fff;padding:13px 20px;border-radius:999px;box-shadow:0 10px 30px #30120f35;font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .22s,transform .22s;z-index:1000;text-align:center;max-width:calc(100% - 30px)}
+.cart-toast.show{opacity:1;transform:translate(-50%,0)}
+.finalize-builder{margin-top:12px;min-height:52px;font:700 15px 'DM Sans',sans-serif;letter-spacing:.3px;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 20px #781b2229}
+.builder .summary{border:1px solid #d9c2b2;box-shadow:0 8px 24px #5b2b1b0b}
+@media(max-width:760px){
+  .builder .summary{order:2;margin-top:0;padding:19px;position:static}
+  .builder .summary .total{padding:12px 0 5px;margin:10px 0 14px}
+  .builder .summary .total strong{font-size:30px}
+  .finalize-builder{position:relative;min-height:50px}
+  .cart-grid>.panel:first-child{order:1}
+  .cart-grid>.panel:last-child{order:2}
+}
+footer{background:#30201a;color:#f8eee4;text-align:center;padding:35px 15px}
+footer b{font:600 27px 'Playfair Display'}
+footer p{font-size:10px;letter-spacing:2px;color:#cdbbb0}
+@media(max-width:760px){
+  header{padding:16px;flex-wrap:wrap}
+  nav{order:3;width:100%;justify-content:center;gap:17px}
+  nav button{font-size:11px}
+  .hero{grid-template-columns:1fr}
+  .hero-copy{padding:40px 28px 0}
+  .hero-visual{min-height:270px}
+  .circle{width:225px;height:225px}
+  .cup{width:145px;height:195px}
+  .intro-grid{grid-template-columns:1fr}
+  .product-grid,.category-grid,.builder,.cart-grid{grid-template-columns:1fr}
+  .product{grid-template-columns:90px 1fr}
+  .product-art{height:95px}
+  .custom-banner{align-items:flex-start;flex-direction:column}
+  .summary{position:static}
+  main{padding:0 15px 50px}
+}
+/* Ilustraciones originales SugarBites: sin fotografías */
+.category-art,.product-art{position:relative;overflow:hidden}
+.category-art{height:220px;font-size:initial;background:radial-gradient(circle at 50% 42%,#fff9f1 0 27%,transparent 28%),linear-gradient(135deg,#f7e9df,#ead2c8)}
+.category:nth-child(2) .category-art{background:radial-gradient(circle at 50% 45%,#fffaf0 0 26%,transparent 27%),linear-gradient(135deg,#f7eddf,#e8d0b8)}
+.art-stage{position:absolute;inset:0;display:grid;place-items:center}
+.tray-illustration{position:relative;width:260px;height:150px;transform:rotate(-7deg);filter:drop-shadow(0 15px 12px #6c3d3025)}
+.tray-illustration:before{content:"";position:absolute;inset:16px 4px 8px;background:linear-gradient(145deg,#fffdf7,#e8d8c8);border:7px solid #fff;border-radius:28px;box-shadow:inset 0 0 0 2px #d8bda9}
+.tray-illustration:after{content:"";position:absolute;inset:27px 18px 19px;border:1px solid #d9c5b2;border-radius:18px}
+.treat{position:absolute;z-index:2;width:48px;height:38px;border-radius:13px;background:linear-gradient(145deg,#a94e37,#71301f);box-shadow:inset 0 4px 5px #ffffff45,0 3px 4px #61332235}
+.treat.t1{left:35px;top:38px;transform:rotate(12deg)}
+.treat.t2{left:91px;top:31px;background:linear-gradient(145deg,#f1c7a0,#b86d48);transform:rotate(-8deg)}
+.treat.t3{right:48px;top:43px;background:linear-gradient(145deg,#6d392d,#321d1a);transform:rotate(9deg)}
+.treat.t4{left:57px;bottom:26px;background:linear-gradient(145deg,#f6d5b7,#c98a62);transform:rotate(-12deg)}
+.treat.t5{right:57px;bottom:25px;background:linear-gradient(145deg,#d85b63,#9d2636);border-radius:50%;width:38px;height:38px}
+.berry{position:absolute;z-index:3;width:20px;height:23px;background:linear-gradient(145deg,#f56b72,#b51e37);border-radius:60% 60% 65% 65%;clip-path:polygon(50% 100%,0 35%,10% 8%,38% 0,50% 17%,67% 0,93% 12%,100% 38%)}
+.berry:after{content:"";position:absolute;inset:7px 5px;background:radial-gradient(#ffe6a5 1px,transparent 1.5px);background-size:6px 6px}
+.berry.b1{left:25px;top:69px}
+.berry.b2{right:27px;top:77px}
+.berry.b3{left:124px;bottom:22px}
+.choco-dot{position:absolute;z-index:3;width:10px;height:10px;border-radius:50%;background:#5c2b25;box-shadow:12px 4px #8b4935,-8px 12px #6b3028}
+.cup-illustration{position:relative;width:150px;height:170px;filter:drop-shadow(0 13px 12px #6c3d3028)}
+.cup-illustration:before{content:"";position:absolute;left:15px;right:15px;top:25px;bottom:0;background:linear-gradient(90deg,#ffffffb8,#fff8 35%,#ffffffa8 75%),linear-gradient(#f9d9c6 0 20%,#d94d58 20% 47%,#fff0dd 47% 70%,#c83b49 70%);border:5px solid #fff;border-top:8px solid #fff;border-radius:12px 12px 28px 28px;clip-path:polygon(0 0,100% 0,86% 100%,14% 100%)}
+.cup-illustration:after{content:"";position:absolute;left:30px;right:30px;top:9px;height:27px;border-radius:50%;background:#fff4e8;border:5px solid #fff;box-shadow:inset 0 -5px #f1d4c3}
+.hero-cup{transform:scale(1.28) rotate(4deg)}
+.cup-straw{position:absolute;z-index:3;top:-4px;right:40px;width:9px;height:62px;border-radius:8px;background:#9b3039;transform:rotate(10deg)}
+.cup-berry{position:absolute;z-index:4;top:21px;width:24px;height:25px;border-radius:55% 55% 60% 60%;background:linear-gradient(145deg,#fa777b,#b21f37);clip-path:polygon(50% 100%,0 35%,10% 8%,38% 0,50% 17%,67% 0,93% 12%,100% 38%)}
+.cup-berry.cb1{left:43px}
+.cup-berry.cb2{left:70px;top:15px}
+.cup-berry.cb3{right:40px;top:23px}
+.product-art{height:112px;border-radius:13px;background:linear-gradient(135deg,#f7e8df,#ecd3c9);display:grid;place-items:center;font-size:initial}
+.product-art .tray-illustration{transform:scale(.43) rotate(-7deg);transform-origin:center}
+.product-art .cup-illustration{transform:scale(.62);transform-origin:center}
+.product:nth-child(2) .product-art{background:linear-gradient(135deg,#f3e6d9,#e5cbb7)}
+.hero-visual{background:radial-gradient(circle at 50% 50%,#fff8ee 0 34%,transparent 35%)}
+.hero-visual .circle{background:#e8c4b8}
+@media(max-width:760px){.category-art{height:190px}}
+.tray-options{display:grid;gap:9px;margin:14px 0}
+.tray-options details{border:1px solid var(--sand);border-radius:12px;background:#fffefa;overflow:hidden}
+.tray-options summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 15px;font-size:13px;font-weight:800;color:var(--wine)}
+.tray-options summary::-webkit-details-marker{display:none}
+.tray-options summary:after{content:"＋";font-size:17px;color:var(--wine);font-weight:500}
+.tray-options details[open] summary:after{content:"−"}
+.tray-options .item-price{margin-left:auto;color:var(--muted);font-size:11px;font-weight:700;white-space:nowrap}
+.tray-options .opts{padding:0 12px 13px}
+.tray-options .opt{background:#fff;border-color:#eee3d8}
+/* Microinteracciones SugarBites: suaves, rápidas y aptas para celular */
+.btn,.plus,nav button,.qty-control button,.remove,.category,.product,.opt{transition:transform .18s ease,box-shadow .18s ease,background-color .18s ease,border-color .18s ease,opacity .18s ease}
+.btn:active,.plus:active,nav button:active,.qty-control button:active,.remove:active,.opt:active{transform:scale(.96)}
+.btn:focus-visible,.plus:focus-visible,nav button:focus-visible,.qty-control button:focus-visible{outline:3px solid #c98b83;outline-offset:3px}
+.product:hover{transform:translateY(-3px);box-shadow:0 12px 26px #43271912}
+.product.just-added{animation:productAdded .55s ease}
+@keyframes productAdded{0%{transform:scale(1)}35%{transform:scale(1.025);box-shadow:0 0 0 3px #d8aaa0}100%{transform:scale(1)}}
+.view.active{animation:viewEnter .32s ease both}
+@keyframes viewEnter{from{opacity:.55;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.cartline{animation:cartLineIn .28s ease both}
+@keyframes cartLineIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.reveal-on-scroll{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s cubic-bezier(.2,.7,.2,1)}
+.reveal-on-scroll.revealed{opacity:1;transform:translateY(0)}
+.cart-nav-pulse{animation:navPulse .42s ease}
+@keyframes navPulse{50%{transform:scale(1.08);color:var(--wine2)}}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+  .reveal-on-scroll{opacity:1;transform:none}
+}
+
+/* Detalle de selección y experiencia mobile-first */
+.live-breakdown{display:grid;gap:7px;margin:12px 0 4px;max-height:230px;overflow:auto}
+.breakdown-line{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 10px;background:#fbf3eb;border-radius:9px;font-size:11px;color:var(--ink)}
+.breakdown-line b{color:var(--wine);white-space:nowrap}
+.opt{min-height:44px;cursor:pointer}
+.opt span{line-height:1.35}
+.opt .option-price{margin-left:auto;color:var(--wine);font-weight:800;white-space:nowrap;font-size:11px}
+.opt input{width:18px;height:18px;flex:0 0 18px}
+@media(max-width:760px){
+  header{gap:12px;align-items:center}
+  header>.btn{padding:10px 13px;font-size:11px}
+  nav{order:3;width:calc(100vw - 30px);margin:0 -1px;justify-content:flex-start;gap:8px;overflow-x:auto;overscroll-behavior-x:contain;white-space:nowrap;padding:5px 1px 9px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  nav::-webkit-scrollbar{display:none}
+  nav button{flex:0 0 auto;padding:10px 12px;border-radius:999px;background:#f2e7dc;font-size:11px;min-height:40px}
+  nav button.active{background:var(--wine);color:white;border:0}
+  .builder{display:flex;flex-direction:column;gap:12px}
+  .builder>.panel{width:100%}
+  .builder .summary{order:2;position:static;z-index:1;box-shadow:0 8px 24px #4b26151c;background:#fffdf8;padding:15px}
+  .builder .summary h3{font-size:19px;margin-bottom:8px}
+  .builder .summary .live-breakdown{max-height:125px}
+  .builder .summary .total{margin:8px 0 4px}
+  .builder .summary .total strong{font-size:26px}
+  .builder .summary .hint{margin:6px 0}
+  .builder .summary .finalize-builder{min-height:48px}
+  .tray-options summary{min-height:48px}
+  .tray-options .opt{min-height:46px;padding:10px}
+  .section-head h2{font-size:31px}
+  .hero{margin-top:8px;border-radius:20px}
+  .hero-copy{padding:32px 22px 0}
+  .hero-copy p{font-size:13px}
+  .cart-grid{gap:12px}
+  .cart-grid>.panel{padding:17px}
+  .cart-actions{gap:8px}
+}
+@media(max-width:380px){
+  header{padding:13px}
+  .brand b{font-size:22px}
+  .brand small{letter-spacing:3px}
+  header>.btn{padding:9px 10px}
+  .hero-copy h1{font-size:39px}
+}
+body.checkout-done .order-section{display:none}
+
+/* Pedido compacto con estética SugarBites */
+.order-section{padding-bottom:35px}
+.order-card{max-width:600px;margin:0 auto;background:var(--paper);border:1px solid var(--sand);border-radius:18px;padding:22px 24px;box-shadow:0 12px 32px #43271910}
+.order-card-head{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--sand);padding:0 0 14px;margin-bottom:14px}
+.order-card-head h3{font:700 18px 'DM Sans',sans-serif;color:var(--ink);margin:0}
+.edit-order{border:0;background:none;color:var(--wine);font:700 13px 'DM Sans',sans-serif;cursor:pointer;padding:4px 8px;border-radius:8px}
+.edit-order:hover{background:var(--blush)}
+.order-item{background:#fffefa;border:1px solid var(--sand);border-radius:14px;padding:14px 16px;margin:10px 0;animation:cartLineIn .28s ease both}
+.order-item-row{display:flex;align-items:center;gap:14px}
+.order-thumb{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,#f7e9df,#ead2c8);border:1px solid #e6d5c5;display:grid;place-items:center;flex:0 0 64px;overflow:hidden;position:relative}
+.order-thumb.is-cup{background:linear-gradient(135deg,#f7eddf,#e8d0b8)}
+.order-thumb .tray-illustration{transform:scale(.24) rotate(-7deg);transform-origin:center;filter:none}
+.order-thumb .cup-illustration{transform:scale(.34);transform-origin:center;filter:none}
+.order-item-body{flex:1;min-width:0}
+.order-item-main{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.order-item-main b{font-size:15px;font-weight:700;color:var(--ink)}
+.order-item-main strong{font-size:16px;font-weight:800;color:var(--ink);white-space:nowrap}
+.order-item small{display:block;font-size:12px;line-height:1.5;color:var(--muted);margin-top:3px}
+.order-item-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}
+.order-item .qty-control{font-size:13px;font-weight:700;color:var(--ink);margin:0;gap:10px}
+.order-item .qty-control button{width:28px;height:28px;border:1px solid #d9cbbd;border-radius:50%;background:var(--cream);color:var(--wine);font-size:14px;display:grid;place-items:center;padding:0}
+.order-item .qty-control button:hover{background:var(--blush);border-color:var(--wine)}
+.order-item .remove{font-size:12px;font-weight:700;color:var(--wine);padding:4px 8px;border-radius:8px}
+.order-item .remove:hover{background:var(--blush)}
+.order-total{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--sand);margin-top:14px;padding:16px 2px 18px;font-weight:700;font-size:16px;color:var(--ink)}
+.order-total strong{font-size:22px;font-weight:800;color:var(--wine)}
+.order-continue{background:var(--wine);color:#fff;border:0;border-radius:999px;min-height:52px;font:700 15px 'DM Sans',sans-serif;letter-spacing:.3px;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 20px #781b2229}
+.order-continue:hover{background:var(--wine2)}
+.checkout-details{max-width:600px;margin:18px auto 0}
+.checkout-details[hidden]{display:none!important}
+.checkout-details .panel{padding:22px}
+@media(max-width:600px){
+  .order-card{padding:16px}
+  .order-item{padding:12px}
+  .order-thumb{width:54px;height:54px;flex-basis:54px}
+  .order-thumb .tray-illustration{transform:scale(.2) rotate(-7deg)}
+  .order-thumb .cup-illustration{transform:scale(.29)}
+  .order-total strong{font-size:20px}
+}
+</style>
+</head>
+<body>
+<div class="top">SUGARBITES · POSTRES PARA COMPARTIR Y DISFRUTAR</div>
+<header>
+  <a class="brand" href="#" onclick="showView('home');return false"><span class="monogram">S</span><span><b>SugarBites</b><small>DESSERTS & MORE</small></span></a>
+  <nav>
+    <button class="active" data-nav="home" onclick="showView('home')">INICIO</button>
+    <button data-nav="menu" onclick="showView('menu')">MENÚ</button>
+    <button data-nav="bandejas" onclick="showView('bandejas')">BANDEJAS</button>
+    <button data-nav="vasos" onclick="showView('vasos')">VASOS</button>
+  </nav>
+  <button class="btn" onclick="showView('menu')">Hacer pedido ↗</button>
+</header>
+<main>
+  <section id="home" class="view active">
+    <div class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">Bienvenidos a SugarBites</div>
+        <h1>Pequeños gustos,<br>grandes momentos.</h1>
+        <p>En SugarBites creemos que los mejores momentos también se disfrutan con algo rico. Creamos bandejas y vasos dulces para compartir, regalar o darte ese gusto que tenías ganas.</p>
+        <p>Elegí uno de nuestros clásicos o armá tu propia combinación con tus frutas, toppings y salsas favoritas.</p>
+        <div class="actions">
+          <button class="btn" onclick="showView('menu')">Explorar menú</button>
+          <button class="btn outline" onclick="showView('bandejas')">Armar mi bandeja</button>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="circle"></div>
+        <div class="cup-illustration hero-cup"><i class="cup-straw"></i><i class="cup-berry cb1"></i><i class="cup-berry cb2"></i><i class="cup-berry cb3"></i></div>
+        <div class="float one">♡ Preparado para vos</div>
+        <div class="float two">UN ANTOJO, MIL COMBINACIONES</div>
+      </div>
+    </div>
+    <div class="intro-grid">
+      <div class="intro-card"><strong>Hecho para disfrutar</strong><p>Opciones dulces preparadas con combinaciones que dan ganas de volver a elegir.</p></div>
+      <div class="intro-card"><strong>A tu manera</strong><p>Podés elegir nuestros clásicos o personalizar tu pedido con tus ingredientes preferidos.</p></div>
+      <div class="intro-card"><strong>Para cada momento</strong><p>Un mimo para vos, una tarde con amigos o algo rico para compartir.</p></div>
+    </div>
+    <div class="section-head">
+      <div class="eyebrow">Elegí por dónde empezar</div>
+      <h2>¿Qué se te antoja hoy?</h2>
+      <p>Entrá a una categoría para descubrir todas las opciones.</p>
+    </div>
+    <div class="category-grid">
+      <article class="category" onclick="showView('bandejas')">
+        <div class="category-art"><div class="art-stage"><div class="tray-illustration"><i class="treat t1"></i><i class="treat t2"></i><i class="treat t3"></i><i class="treat t4"></i><i class="treat t5"></i><i class="berry b1"></i><i class="berry b2"></i><i class="berry b3"></i><i class="choco-dot"></i></div></div></div>
+        <div class="category-info"><div><h3>Bandejas</h3><p>Clásicas y personalizables</p></div><span class="arrow">→</span></div>
+      </article>
+      <article class="category" onclick="showView('vasos')">
+        <div class="category-art"><div class="art-stage"><div class="cup-illustration"><i class="cup-straw"></i><i class="cup-berry cb1"></i><i class="cup-berry cb2"></i><i class="cup-berry cb3"></i></div></div></div>
+        <div class="category-info"><div><h3>Vasos</h3><p>Clásicos y personalizables</p></div><span class="arrow">→</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="menu" class="view">
+    <div class="section-head">
+      <div class="eyebrow">Todo lo rico está acá</div>
+      <h2>Nuestro menú</h2>
+      <p>Elegí una categoría para ver los productos y las opciones para personalizar.</p>
+    </div>
+    <div class="category-grid">
+      <article class="category" onclick="showView('bandejas')">
+        <div class="category-art"><div class="art-stage"><div class="tray-illustration"><i class="treat t1"></i><i class="treat t2"></i><i class="treat t3"></i><i class="treat t4"></i><i class="treat t5"></i><i class="berry b1"></i><i class="berry b2"></i><i class="berry b3"></i><i class="choco-dot"></i></div></div></div>
+        <div class="category-info"><div><h3>Bandejas</h3><p>Bandeja clásica · Bandeja choco · Personalizá la tuya</p></div><span class="arrow">→</span></div>
+      </article>
+      <article class="category" onclick="showView('vasos')">
+        <div class="category-art"><div class="art-stage"><div class="cup-illustration"><i class="cup-straw"></i><i class="cup-berry cb1"></i><i class="cup-berry cb2"></i><i class="cup-berry cb3"></i></div></div></div>
+        <div class="category-info"><div><h3>Vasos</h3><p>Vaso chico · Vaso grande · Personalizá el tuyo</p></div><span class="arrow">→</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="bandejas" class="view">
+    <div class="section-head">
+      <div class="eyebrow">Para compartir</div>
+      <h2>Nuestras bandejas</h2>
+      <p>Elegí uno de nuestros dos clásicos o creá tu propia bandeja.</p>
+    </div>
+    <div class="product-grid">
+      <article class="product">
+        <div class="product-art"><div class="tray-illustration"><i class="treat t1"></i><i class="treat t2"></i><i class="treat t3"></i><i class="treat t4"></i><i class="treat t5"></i><i class="berry b1"></i><i class="berry b2"></i><i class="berry b3"></i><i class="choco-dot"></i></div></div>
+        <div><h3>Bandeja clásica</h3><p>Frutillas, brownie, trufas, mini pancakes y mini waffles. Incluye salsas clásicas a elección.</p><div class="product-bottom"><span class="price">$16.500</span><button class="plus" onclick="quickAdd('Bandeja clásica',16500)">+</button></div></div>
+      </article>
+      <article class="product">
+        <div class="product-art"><div class="tray-illustration"><i class="treat t1"></i><i class="treat t2"></i><i class="treat t3"></i><i class="treat t4"></i><i class="treat t5"></i><i class="berry b1"></i><i class="berry b2"></i><i class="berry b3"></i><i class="choco-dot"></i></div></div>
+        <div><h3>Bandeja choco</h3><p>Brownie, Oreo, trufa, Ferrero y confites de chocolate. Incluye salsas clásicas a elección.</p><div class="product-bottom"><span class="price">$19.500</span><button class="plus" onclick="quickAdd('Bandeja choco',19500)">+</button></div></div>
+      </article>
+    </div>
+    <div class="custom-banner">
+      <div><h3>¿Preferís elegir cada detalle?</h3><p>Armá tu bandeja con bases, frutas y salsas a tu gusto.</p></div>
+      <button class="btn" onclick="openBuilder('bandeja')">Personalizar mi bandeja ↓</button>
+    </div>
+    <div id="bandejaBuilder" class="builder">
+      <div class="panel">
+        <h3>Armá tu bandeja</h3>
+        <div class="tray-options">
+          <details><summary><span>Bases clásicas</span><span class="item-price">$3.500 c/u</span></summary><div class="opts" id="trayClassic"></div></details>
+          <details><summary><span>Bases especiales</span><span class="item-price">$7.500 c/u</span></summary><div class="opts" id="trayPremium"></div></details>
+          <details><summary><span>Frutas</span><span class="item-price">$4.500 c/u</span></summary><div class="opts" id="trayFruits"></div></details>
+          <details><summary><span>Salsas clásicas</span><span class="item-price">$2.000 c/u</span></summary><div class="opts" id="trayClassicSauces"></div></details>
+          <details><summary><span>Salsas especiales</span><span class="item-price">$3.000 c/u</span></summary><div class="opts" id="trayPremiumSauces"></div></details>
+        </div>
+        <label class="field">Aclaraciones</label>
+        <textarea id="trayNotes" rows="2" placeholder="Contanos si querés pedir algo especial..."></textarea>
+      </div>
+      <aside class="panel summary">
+        <h3>Tu bandeja</h3>
+        <div class="sumrow"><span>Opciones elegidas</span><b id="trayCount">0</b></div>
+        <div id="trayBreakdown" class="live-breakdown"><p class="hint">Todavía no elegiste ingredientes. Marcá opciones para verlas acá con sus precios.</p></div>
+        <div class="total"><span>Total estimado</span><strong id="trayTotal">$0</strong></div>
+        <p class="hint">El precio se actualiza automáticamente según los ingredientes que vayas eligiendo.</p>
+        <button class="btn wide finalize-builder" onclick="addTray(true)">Finalizar bandeja ↗</button>
+      </aside>
+    </div>
+  </section>
+
+  <section id="vasos" class="view">
+    <div class="section-head">
+      <div class="eyebrow">Un clásico que nunca falla</div>
+      <h2>Nuestros vasos</h2>
+      <p>Frutilla y crema, o una combinación hecha por vos.</p>
+    </div>
+    <div class="product-grid">
+      <article class="product">
+        <div class="product-art"><div class="cup-illustration"><i class="cup-straw"></i><i class="cup-berry cb1"></i><i class="cup-berry cb2"></i><i class="cup-berry cb3"></i></div></div>
+        <div><h3>Vaso chico clásico</h3><p>Frutilla y crema, el clásico de siempre.</p><div class="product-bottom"><span class="price">$10.000</span><button class="plus" onclick="quickAdd('Vaso chico clásico',10000)">+</button></div></div>
+      </article>
+      <article class="product">
+        <div class="product-art"><div class="cup-illustration"><i class="cup-straw"></i><i class="cup-berry cb1"></i><i class="cup-berry cb2"></i><i class="cup-berry cb3"></i></div></div>
+        <div><h3>Vaso grande clásico</h3><p>Frutilla y crema, para disfrutar un poquito más.</p><div class="product-bottom"><span class="price">$15.000</span><button class="plus" onclick="quickAdd('Vaso grande clásico',15000)">+</button></div></div>
+      </article>
+    </div>
+    <div class="custom-banner">
+      <div><h3>Creá tu propio vaso</h3><p>Elegí el tamaño y sumale frutas, toppings y salsas.</p></div>
+      <button class="btn" onclick="openBuilder('vaso')">Personalizar mi vaso ↓</button>
+    </div>
+    <div id="vasoBuilder" class="builder">
+      <div class="panel">
+        <h3>Personalizá tu vaso</h3>
+        <label class="field" for="cupSize">Elegí el tamaño</label>
+        <select id="cupSize" class="select" onchange="calcCup()">
+          <option value="5000">Vaso chico personalizado — $5.000</option>
+          <option value="10000">Vaso grande personalizado — $10.000</option>
+        </select>
+        <div class="tray-options cup-options">
+          <details><summary><span>Frutas</span><span class="item-price">$4.500 c/u</span></summary><div class="opts" id="cupFruits"></div></details>
+          <details><summary><span>Toppings clásicos</span><span class="item-price">$3.000 c/u</span></summary><div class="opts" id="cupClassic"></div></details>
+          <details><summary><span>Toppings especiales</span><span class="item-price">$7.000 c/u</span></summary><div class="opts" id="cupPremium"></div></details>
+          <details><summary><span>Salsas clásicas</span><span class="item-price">$2.000 c/u</span></summary><div class="opts" id="cupClassicSauces"></div></details>
+          <details><summary><span>Salsas especiales</span><span class="item-price">$3.000 c/u</span></summary><div class="opts" id="cupPremiumSauces"></div></details>
+        </div>
+        <label class="field">Aclaraciones</label>
+        <textarea id="cupNotes" rows="2" placeholder="Contanos si querés pedir algo especial..."></textarea>
+      </div>
+      <aside class="panel summary">
+        <h3>Tu vaso</h3>
+        <div class="sumrow"><span>Tamaño</span><b id="cupLabel">Chico</b></div>
+        <div class="sumrow"><span>Extras elegidos</span><b id="cupCount">0</b></div>
+        <div id="cupBreakdown" class="live-breakdown"><p class="hint">Elegí ingredientes para ver el detalle de precios.</p></div>
+        <div class="total"><span>Total estimado</span><strong id="cupTotal">$5.000</strong></div>
+        <p class="hint">El precio cambia automáticamente según el tamaño y los ingredientes seleccionados.</p>
+        <button class="btn wide finalize-builder" onclick="addCup(true)">Finalizar vaso ↗</button>
+      </aside>
+    </div>
+  </section>
+
+  <section id="cart" class="order-section">
+    <div class="section-head">
+      <div class="eyebrow">Ya casi está</div>
+      <h2>Mi pedido</h2>
+    </div>
+    <div class="order-card">
+      <div class="order-card-head">
+        <h3>Mi pedido</h3>
+        <button class="edit-order" onclick="showView('menu')">Editar</button>
+      </div>
+      <div id="cartItems" class="order-items"><p class="hint">Todavía no agregaste productos.</p></div>
+      <div class="order-total"><span>Total</span><strong id="cartTotal">$0</strong></div>
+      <button class="btn wide order-continue" onclick="openCheckoutDetails()">Continuar ↗</button>
+    </div>
+    <div id="checkoutDetails" class="checkout-details" hidden>
+      <div class="panel">
+        <div class="eyebrow">Último paso</div>
+        <h3>Datos para el pedido</h3>
+        <label class="field" for="customer">Nombre y apellido</label>
+        <input id="customer" placeholder="Tu nombre">
+        <label class="field" for="email">Correo electrónico</label>
+        <input id="email" type="email" placeholder="tu@email.com">
+        <label class="field" for="phone">Número de WhatsApp</label>
+        <input id="phone" type="tel" placeholder="Tu número con característica">
+        <p class="hint" style="margin-top:-8px">Te pedimos tu número para avisarte por WhatsApp cuando recibamos tu pedido y mantenerte al tanto. 💗</p>
+        <div class="payhint"><b>Retiro del pedido</b><br>Nosotras te vamos a indicar la dirección y el horario de retiro cuando tu pedido esté listo.</div>
+        <label class="field" for="payment">Medio de pago</label>
+        <select class="select" id="payment" onchange="paymentInfo()">
+          <option>Mercado Pago</option>
+          <option>Tarjeta virtual</option>
+          <option>Efectivo</option>
+        </select>
+        <div class="payhint" id="payInfo">El pago por Mercado Pago se coordina por mensaje. Te compartiremos los datos vigentes al confirmar tu pedido.</div>
+        <button class="btn wide" onclick="checkout()">Finalizar compra</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="orderDone" class="view">
+    <div class="panel done-panel">
+      <div class="done-icon">♡</div>
+      <div class="eyebrow">SugarBites</div>
+      <h2>¡Tu pedido está listo para enviar!</h2>
+      <p>Copiamos el resumen de tu pedido. Ahora pegalo en un mensaje directo de Instagram para que podamos recibirlo y confirmarlo.</p>
+      <p class="hint">Usaremos el número que nos dejaste para avisarte por WhatsApp cuando recibamos tu pedido y para mantenerte al tanto. Cuando esté listo, también te enviaremos por WhatsApp la dirección y el horario de retiro. El pedido queda confirmado cuando te respondamos.</p>
+      <a class="btn" href="https://www.instagram.com/sugarbites.ba/" target="_blank" rel="noopener">Enviar pedido por Instagram</a>
+      <button class="btn outline" onclick="showView('home')" style="margin-top:10px">Volver al inicio</button>
+    </div>
+  </section>
+</main>
+<footer>
+  <b>SugarBites</b>
+  <p>UN ANTOJO, MIL COMBINACIONES ♡</p>
+</footer>
+<div id="cartToast" class="cart-toast"></div>
+<script>
+const money=n=>n.toLocaleString('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0});
+const data={fruits:['Frutilla','Banana','Durazno','Ananá','Arándanos','Uvas'],classic:['Mini pancakes','Mini waffles','Trufas','Brownie','Cubanitos de chocolate','Confites de chocolate (cereal)'],premium:['Marroc','Mini Block','Ferrero','Mini Oreo','Barrita Kinder'],classicSauces:['Chocolate','Chocolate con leche','Chocolate blanco','Dulce de leche','Caramelo','Crema'],premiumSauces:['Nutella','Pistacho','Block','Bon Bon','Leche condensada']};
+let cart=[];
+let toastTimer;
+
+function showToast(message){
+  const el=document.getElementById('cartToast');
+  if(!el)return;
+  el.textContent=message;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>el.classList.remove('show'),2300);
+}
+
+function updateCartNav(){
+  const b=document.querySelector('nav button[data-nav="cart"]');
+  if(b)b.textContent=`PEDIDO (${cart.reduce((n,x)=>n+x.qty,0)})`;
+}
+
+function showView(id){
+  document.body.classList.toggle('checkout-done',id==='orderDone');
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.nav===id));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function checks(id,items,price){
+  document.getElementById(id).innerHTML=items.map(x=>`<label class="opt"><input type="checkbox" data-group="${id}" data-price="${price}" value="${x}" onchange="recalcAll()"><span>${x}</span><span class="option-price">${money(price)}</span></label>`).join('');
+}
+
+checks('trayClassic',data.classic,3500);
+checks('trayPremium',data.premium,7500);
+checks('trayFruits',data.fruits,4500);
+checks('trayClassicSauces',data.classicSauces,2000);
+checks('trayPremiumSauces',data.premiumSauces,3000);
+checks('cupFruits',data.fruits,4500);
+checks('cupClassic',data.classic,3000);
+checks('cupPremium',data.premium,7000);
+checks('cupClassicSauces',data.classicSauces,2000);
+checks('cupPremiumSauces',data.premiumSauces,3000);
+
+function chosen(ids){
+  return ids.flatMap(id=>[...document.querySelectorAll(`[data-group="${id}"]:checked`)].map(x=>({name:x.value,price:Number(x.dataset.price),group:id})));
+}
+
+function renderBreakdown(target,items,baseLabel='',basePrice=0){
+  const el=document.getElementById(target);
+  if(!el)return;
+  const rows=[];
+  if(baseLabel)rows.push(`<div class="breakdown-line"><span>${baseLabel}</span><b>${money(basePrice)}</b></div>`);
+  items.forEach(x=>rows.push(`<div class="breakdown-line"><span>${x.name}</span><b>${money(x.price)}</b></div>`));
+  el.innerHTML=rows.length?rows.join(''):'<p class="hint">Todavía no elegiste ingredientes. Marcá opciones para verlas acá con sus precios.</p>';
+}
+
+function calcTray(){
+  const ids=['trayClassic','trayPremium','trayFruits','trayClassicSauces','trayPremiumSauces'];
+  const items=chosen(ids);
+  const count=items.length;
+  const total=items.reduce((s,x)=>s+x.price,0);
+  const countEl=document.getElementById('trayCount');
+  const totalEl=document.getElementById('trayTotal');
+  if(countEl)countEl.textContent=count;
+  if(totalEl)totalEl.textContent=money(total);
+  renderBreakdown('trayBreakdown',items);
+  return {count,total,details:items.map(x=>x.name),items};
+}
+
+function calcCup(){
+  let size=Number(document.getElementById('cupSize').value),ids=['cupFruits','cupClassic','cupPremium','cupClassicSauces','cupPremiumSauces'];
+  let items=chosen(ids);
+  let total=size+items.reduce((s,x)=>s+x.price,0);
+  document.getElementById('cupLabel').textContent=size===5000?'Chico':'Grande';
+  document.getElementById('cupCount').textContent=items.length;
+  document.getElementById('cupTotal').textContent=money(total);
+  renderBreakdown('cupBreakdown',items,size===5000?'Vaso chico':'Vaso grande',size);
+  return {count:items.length,total,details:items.map(x=>x.name),base:size,items};
+}
+
+function recalcAll(){calcTray();calcCup()}
+function openBuilder(type){document.getElementById(type==='bandeja'?'bandejaBuilder':'vasoBuilder').scrollIntoView({behavior:'smooth',block:'start'})}
+
+function addTray(goToCart=false){
+  let x=calcTray();
+  if(!x.count)return alert('Elegí al menos una opción para tu bandeja.');
+  cart.push({name:'Bandeja personalizada',price:x.total,details:x.details,notes:document.getElementById('trayNotes').value,qty:1});
+  renderCart();
+  document.getElementById('checkoutDetails').hidden=true;
+  animateAddedProduct('bandejaBuilder');
+  showToast('¡Bandeja agregada a Mi pedido! 🍓');
+  if(goToCart)document.getElementById('cart').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function addCup(goToCart=false){
+  let x=calcCup();
+  cart.push({name:'Vaso '+(x.base===5000?'chico':'grande')+' personalizado',price:x.total,details:x.details,notes:document.getElementById('cupNotes').value,qty:1});
+  renderCart();
+  document.getElementById('checkoutDetails').hidden=true;
+  animateAddedProduct('vasoBuilder');
+  showToast('¡Vaso agregado a Mi pedido! 🍓');
+  if(goToCart)document.getElementById('cart').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function quickAdd(name,price){
+  cart.push({name,price,details:[],qty:1});
+  renderCart();
+  document.getElementById('checkoutDetails').hidden=true;
+  animateAddedProductFromButton();
+  showToast(name+' agregado a tu pedido. ¡Seguí eligiendo! 💗');
+}
+
+function animateAddedProduct(id){
+  const section=document.getElementById(id);
+  const card=section?.querySelector('.panel');
+  if(card){card.classList.remove('just-added');void card.offsetWidth;card.classList.add('just-added')}
+}
+
+function animateAddedProductFromButton(){
+  const active=document.activeElement;
+  const card=active?.closest('.product');
+  if(card){card.classList.remove('just-added');void card.offsetWidth;card.classList.add('just-added')}
+}
+
+function orderThumb(name){
+  const isCup=/vaso/i.test(name);
+  return isCup
+    ? '<div class="order-thumb is-cup" aria-hidden="true"><div class="cup-illustration"><i class="cup-straw"></i><i class="cup-berry cb1"></i><i class="cup-berry cb2"></i><i class="cup-berry cb3"></i></div></div>'
+    : '<div class="order-thumb" aria-hidden="true"><div class="tray-illustration"><i class="treat t1"></i><i class="treat t2"></i><i class="treat t3"></i><i class="treat t4"></i><i class="treat t5"></i><i class="berry b1"></i><i class="berry b2"></i><i class="berry b3"></i><i class="choco-dot"></i></div></div>';
+}
+
+function renderCart(){
+  document.getElementById('cartItems').innerHTML=cart.length?cart.map((x,i)=>`
+    <div class="order-item">
+      <div class="order-item-row">
+        ${orderThumb(x.name)}
+        <div class="order-item-body">
+          <div class="order-item-main">
+            <div>
+              <b>${x.name}</b>
+              <small>${x.details.join(' · ')||'Receta clásica'}${x.notes?' · '+x.notes:''}</small>
+            </div>
+            <strong>${money(x.price*x.qty)}</strong>
+          </div>
+          <div class="order-item-footer">
+            <span class="qty-control">
+              <button aria-label="Restar cantidad" onclick="changeQty(${i},-1)">−</button>
+              <span>${x.qty}x</span>
+              <button aria-label="Sumar cantidad" onclick="changeQty(${i},1)">+</button>
+            </span>
+            <button class="remove" onclick="removeItem(${i})">Quitar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join(''):'<p class="hint">Todavía no agregaste productos.</p>';
+  document.getElementById('cartTotal').textContent=money(cart.reduce((s,x)=>s+x.price*x.qty,0));
+  updateCartNav();
+}
+
+function changeQty(i,delta){if(!cart[i])return;cart[i].qty=Math.max(1,cart[i].qty+delta);renderCart()}
+function removeItem(i){cart.splice(i,1);renderCart()}
+
+function openCheckoutDetails(){
+  if(!cart.length)return alert('Agregá al menos un producto.');
+  const details=document.getElementById('checkoutDetails');
+  details.hidden=false;
+  details.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function paymentInfo(){
+  const method=document.getElementById('payment').value;
+  const messages={
+    'Mercado Pago':'El pago por Mercado Pago se coordina por mensaje. Te compartiremos los datos vigentes al confirmar tu pedido.',
+    'Tarjeta virtual':'Te indicaremos cómo realizar el pago con tarjeta virtual al confirmar el pedido.',
+    'Efectivo':'Podés abonar en efectivo al retirar tu pedido.'
+  };
+  document.getElementById('payInfo').textContent=messages[method];
+}
+
+function checkout(){
+  if(!cart.length)return alert('Agregá al menos un producto.');
+  let fields=['customer','email','phone'];
+  if(fields.some(id=>!document.getElementById(id).value.trim()))return alert('Completá nombre, correo y teléfono.');
+  const total=cart.reduce((s,x)=>s+x.price*x.qty,0);
+  const lines=['¡Hola SugarBites! Quiero hacer este pedido:','',...cart.map((x,i)=>`${i+1}. ${x.name} x ${x.qty} - ${money(x.price*x.qty)}\n   Opciones: ${x.details.join(', ')||'Receta clásica'}${x.notes?'\n   Aclaraciones: '+x.notes:''}`),'',`TOTAL: ${money(total)}`,'',`Nombre: ${document.getElementById('customer').value.trim()}`,`Correo: ${document.getElementById('email').value.trim()}`,`Teléfono: ${document.getElementById('phone').value.trim()}`,`Retiro: dirección y horario a coordinar con SugarBites`,`Medio de pago elegido: ${document.getElementById('payment').value}`];
+  const message=lines.join('\n');
+  const done=()=>showView('orderDone');
+  const fallbackCopy=()=>{
+    const area=document.createElement('textarea');
+    area.value=message;
+    area.style.position='fixed';
+    area.style.opacity='0';
+    document.body.appendChild(area);
+    area.select();
+    try{document.execCommand('copy')}catch(e){}
+    area.remove();
+    done();
+  };
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(message).then(done).catch(fallbackCopy);
+  }else{
+    fallbackCopy();
+  }
+}
+
+// Aparición progresiva de secciones y tarjetas al desplazarse
+function setupScrollReveals(){
+  const targets=document.querySelectorAll('main .view.active .section-head,main .view.active .intro-card,main .view.active .category,main .view.active .product,main .view.active .custom-banner,main .view.active .panel,main .view.active .hero-copy,main .view.active .hero-visual');
+  targets.forEach((el,i)=>{
+    if(!el.classList.contains('reveal-on-scroll')){
+      el.classList.add('reveal-on-scroll');
+      el.style.transitionDelay=(i%4)*65+'ms';
+    }
+  });
+  if(!('IntersectionObserver' in window)){targets.forEach(el=>el.classList.add('revealed'));return}
+  const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
+    if(entry.isIntersecting){entry.target.classList.add('revealed');observer.unobserve(entry.target)}
+  }),{threshold:.12,rootMargin:'0px 0px -35px 0px'});
+  targets.forEach(el=>{if(!el.classList.contains('revealed'))observer.observe(el)});
+}
+
+setupScrollReveals();
+const originalShowView=showView;
+showView=function(id){originalShowView(id);requestAnimationFrame(setupScrollReveals)};
+recalcAll();
+renderCart();
+</script>
+</body>
+</html>
